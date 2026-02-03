@@ -93,16 +93,15 @@ export default app;
 // Only start HTTP server when running locally
 // Skip this block completely on Vercel
 // ────────────────────────────────────────────────
-if (!process.env.VERCEL) {
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`Server listening on port ${port}`);
-    }
-  );
+// ... all your existing imports, app setup, middleware, routes ...
+
+// Conditional listen for development only
+if (process.env.NODE_ENV !== 'production') {
+  const port = process.env.PORT || 5000;
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
 }
+
+// Export the app for Vercel to use
+export default app;  // Add this line if not already there
